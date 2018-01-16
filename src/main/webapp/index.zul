@@ -1,0 +1,17 @@
+<zk>
+	<window title="Hello World" border="normal"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('epsilveira.league.webapp.SampleVM')"
+	>
+		<vlayout>
+		<textbox value="@bind(vm.name)" onChanging="@command('increment')" instant="true"></textbox>
+		<label value="@bind(vm.name)"></label>
+		
+		<button label="increment" onClick="@command('increment')"></button>
+		<label value="@bind(vm.counter)"></label>
+		
+		</vlayout>
+		
+		
+	</window>
+</zk>

@@ -1,0 +1,23 @@
+<zk>
+	<window title="Hello World" border="normal"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('epsilveira.league.webapp.PlayersVM')"
+	>
+	
+	<listbox model="@bind(vm.players)">
+		<listhead>
+			<listheader label="name"></listheader>
+			<listheader label="actions"></listheader>
+		</listhead>
+		
+		<template name="model">
+			<listitem>
+				<listcell><label value="@bind(each.name)"></label></listcell>
+				<listcell>work in progress</listcell>
+			</listitem>
+		</template>
+	
+	</listbox>
+	</window>
+</zk>
+	
