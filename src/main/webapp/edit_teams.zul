@@ -1,4 +1,14 @@
 <zk>
+    <panel>
+        <panelchildren>
+            <toolbar>
+                <toolbarbutton label="Players" tooltiptext="Players"  href="edit_players.zul"  />
+                <toolbarbutton label="Coaches" tooltiptext="Coaches"  href="edit_coaches.zul"  />
+                <toolbarbutton label="Teams" tooltiptext="Teams"  href="edit_teams.zul"  />
+                <toolbarbutton label="Contests" tooltiptext="Contests"  href="edit_contests.zul"  />
+            </toolbar>
+        </panelchildren>
+    </panel>
     <window title="Teams" border="normal"
             apply="org.zkoss.bind.BindComposer"
             viewModel="@id('vm') @init('epsilveira.league.webapp.TeamsVM')"
