@@ -1,23 +1,83 @@
 <zk>
-	<window title="Hello World" border="normal"
-		apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('epsilveira.league.webapp.PlayersVM')"
-	>
-	
-	<listbox model="@bind(vm.players)">
-		<listhead>
-			<listheader label="name"></listheader>
-			<listheader label="actions"></listheader>
-		</listhead>
-		
-		<template name="model">
-			<listitem>
-				<listcell><label value="@bind(each.name)"></label></listcell>
-				<listcell>work in progress</listcell>
-			</listitem>
-		</template>
-	
-	</listbox>
-	</window>
+    <window title="Players" border="normal"
+            apply="org.zkoss.bind.BindComposer"
+            viewModel="@id('vm') @init('epsilveira.league.webapp.PlayersVM')"
+    >
+
+        <window title="Player Editor" width="400px" mode="modal" action="show: slideDown;hide: slideUp" visible="@load(vm.currentPlayer ne null)">
+            <vlayout>
+                <grid>
+                    <rows>
+                        <row>
+                            <label value="Name:" />
+                            <textbox width="100%" value="@load(vm.currentPlayer.name) @save(vm.currentPlayer.name, before='savePlayer')" constraint="no empty"/>
+                        </row>
+                        <row>
+                            <label value="Birth Year:" />
+                            <textbox width="100%" value="@load(vm.currentPlayer.birthYear) @save(vm.currentPlayer.birthYear, before='savePlayer')" constraint="no negative, no zero, no empty, /[0-9]{4}/: Please insert a year" maxlength="4"/>
+                        </row>
+                        <row>
+                            <label value="Team:" />
+                            <combobox width="100%" model="@bind(vm.teams)" selectedItem="@load(vm.currentPlayer.team) @save(vm.currentPlayer.team, before='savePlayer')">
+                                <template name="model">
+                                    <comboitem label="@bind(each.name)"/>
+                                </template>
+                            </combobox>
+                        </row>
+                        <row>
+                            <label value="Position:" />
+                            <combobox width="100%" model="@bind(vm.positions)" selectedItem="@load(vm.currentPlayer.position) @save(vm.currentPlayer.position, before='savePlayer')">
+                                <template name="model">
+                                    <comboitem label="@bind(each)"/>
+                                </template>
+                            </combobox>
+                        </row>
+                    </rows>
+                </grid>
+
+                <hbox>
+                    <button label="Accept" onClick="@command('savePlayer')"/>
+                    <button label="Cancel" onClick="@command('resetEditing')"/>
+                </hbox>
+            </vlayout>
+        </window>
+        <groupbox mold="3d" closable="false">
+            <caption label="Player list">
+                <separator/>
+                <button label="New" onClick="@command('newPlayer')"/>
+            </caption>
+            <listbox model="@bind(vm.players)">
+                <listhead>
+                    <listheader label="Name"/>
+                    <listheader label="Age"/>
+                    <listheader label="Team"/>
+                    <listheader label="Position"/>
+                    <listheader label="Actions"/>
+                </listhead>
+
+                <template name="model">
+                    <listitem>
+                        <listcell>
+                            <label value="@bind(each.name)"/>
+                        </listcell>
+                        <listcell>
+                            <label value="@bind(each.age)"/>
+                        </listcell>
+                        <listcell>
+                            <label value="@bind(each.team.name)"/>
+                        </listcell>
+                        <listcell>
+                            <label value="@bind(each.position)"/>
+                        </listcell>
+                        <listcell>
+                            <button label="Edit" onClick="@command('edit', p=each)"/>
+                            <button label="Delete" onClick="@command('delete', p=each)"/>
+                        </listcell>
+                    </listitem>
+                </template>
+
+            </listbox>
+        </groupbox>
+    </window>
 </zk>
 	

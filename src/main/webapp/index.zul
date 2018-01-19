@@ -1,3 +1,28 @@
+<tabbox height="100%">
+    <?page title="League"?>
+    <tabs>
+        <tab label="Plyers" closable="false" />
+        <tab label="Coaches" closable="false" />
+        <tab label="Teams" closable="false" />
+        <tab label="Contests" closable="false" />
+    </tabs>
+    <tabpanels>
+        <tabpanel>
+            <include src="edit_players.zul"/>
+        </tabpanel>
+        <tabpanel>
+            <include src="edit_coaches.zul"/>
+        </tabpanel>
+        <tabpanel>
+            <include src="edit_teams.zul"/>
+        </tabpanel>
+        <tabpanel>
+            <include src="edit_contests.zul"/>
+        </tabpanel>
+    </tabpanels>
+</tabbox>
+
+<!--
 <zk>
 	<window title="Hello World" border="normal"
 		apply="org.zkoss.bind.BindComposer"
@@ -15,3 +40,4 @@
 		
 	</window>
 </zk>
+-->

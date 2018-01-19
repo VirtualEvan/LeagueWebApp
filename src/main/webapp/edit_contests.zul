@@ -1,0 +1,73 @@
+<zk>
+    <window title="Contests" border="normal"
+            apply="org.zkoss.bind.BindComposer"
+            viewModel="@id('vm') @init('epsilveira.league.webapp.ContestsVM')"
+    >
+
+        <window title="Contest Editor" width="400px" mode="modal" action="show: slideDown;hide: slideUp" visible="@load(vm.currentContest ne null)">
+            <vlayout>
+                <grid>
+                    <rows>
+                        <row>
+                            <label value="Schedule:"/>
+                            <datebox width="100%" format="dd/MM/yyyy" constraint="no empty, no past" value="@load(vm.currentContest.schedule) @save(vm.currentContest.schedule, before='saveContest')"/>
+                        </row>
+                        <row>
+                            <label value="Blue Team:"/>
+                            <combobox width="100%" model="@bind(vm.teams)" constraint="no empty" selectedItem="@load(vm.currentContest.blueTeam) @save(vm.currentContest.blueTeam, before='saveContest')">
+                                <template name="model">
+                                    <comboitem label="@bind(each.name)"/>
+                                </template>
+                            </combobox>
+                        </row>
+                        <row>
+                            <label value="Red Team:"/>
+                            <combobox width="100%" model="@bind(vm.teams)" constraint="no empty" selectedItem="@load(vm.currentContest.redTeam) @save(vm.currentContest.redTeam, before='saveContest')">
+                                <template name="model">
+                                    <comboitem label="@bind(each.name)"/>
+                                </template>
+                            </combobox>
+                        </row>
+                    </rows>
+                </grid>
+                <hbox>
+                    <button label="Accept" onClick="@command('saveContest')"/>
+                    <button label="Cancel" onClick="@command('resetEditing')"/>
+                </hbox>
+            </vlayout>
+        </window>
+        <groupbox mold="3d" closable="false">
+            <caption label="Contest list">
+                <separator/>
+                <button label="New" onClick="@command('newContest')"/>
+            </caption>
+            <listbox model="@bind(vm.contests)">
+                <listhead>
+                    <listheader label="Schedule"/>
+                    <listheader label="Blue Team"/>
+                    <listheader label="Red Team"/>
+                    <listheader label="Actions"/>
+                </listhead>
+
+                <template name="model">
+                    <listitem>
+                        <listcell>
+                            <label value="@bind(each.schedule) @converter('formatedDate',format='dd/MM/yyyy')"/>
+                        </listcell>
+                        <listcell>
+                            <label value="@bind(each.blueTeam.name)"/>
+                        </listcell>
+                        <listcell>
+                            <label value="@bind(each.redTeam.name)"/>
+                        </listcell>
+                        <listcell>
+                            <button label="Edit" onClick="@command('edit', contest=each)"/>
+                            <button label="Delete" onClick="@command('delete', contest=each)"/>
+                        </listcell>
+                    </listitem>
+                </template>
+
+            </listbox>
+        </groupbox>
+    </window>
+</zk>

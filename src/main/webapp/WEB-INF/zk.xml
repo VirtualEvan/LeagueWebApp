@@ -2,6 +2,6 @@
 <zk>
 	<preference>
 		<name>persistence-unit-name</name>
-		<value>league</value>
+		<value>si-database</value>
 	</preference>
 </zk>

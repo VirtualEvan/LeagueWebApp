@@ -1,0 +1,71 @@
+<zk>
+    <window title="Coaches" border="normal"
+            apply="org.zkoss.bind.BindComposer"
+            viewModel="@id('vm') @init('epsilveira.league.webapp.CoachesVM')"
+    >
+
+        <window title="Coach Editor" width="400px" mode="modal" action="show: slideDown;hide: slideUp" visible="@load(vm.currentCoach ne null)">
+            <vlayout>
+                <grid>
+                    <rows>
+                        <row>
+                            <label value="Name:" />
+                            <textbox width="100%" value="@load(vm.currentCoach.name) @save(vm.currentCoach.name, before='saveCoach')" constraint="no empty"/>
+                        </row>
+                        <row>
+                            <label value="Team:" />
+                            <combobox width="100%" model="@bind(vm.teams)" selectedItem="@load(vm.currentCoach.team) @save(vm.currentCoach.team, before='saveCoach')" constraint="no empty">
+                                <template name="model">
+                                    <comboitem label="@bind(each.name)"/>
+                                </template>
+                            </combobox>
+
+                        </row>
+                        <row>
+                            <label value="Since:" />
+                            <textbox width="100%" value="@load(vm.currentCoach.couchingStart) @save(vm.currentCoach.couchingStart, before='saveCoach')" constraint="no negative, no zero, no empty, /[0-9]{4}/: Please insert a year" maxlength="4"/>
+                        </row>
+                    </rows>
+                </grid>
+
+                <hbox>
+                    <button label="Accept" onClick="@command('saveCoach')"/>
+                    <button label="Cancel" onClick="@command('resetEditing')"/>
+                </hbox>
+            </vlayout>
+        </window>
+        <groupbox mold="3d" closable="false">
+            <caption label="Coach list">
+                <separator/>
+                <button label="New" onClick="@command('newCoach')"/>
+            </caption>
+            <listbox model="@bind(vm.coaches)">
+                <listhead>
+                    <listheader label="Name"/>
+                    <listheader label="Since"/>
+                    <listheader label="Team"/>
+                    <listheader label="Actions"/>
+                </listhead>
+
+                <template name="model">
+                    <listitem>
+                        <listcell>
+                            <label value="@bind(each.name)"/>
+                        </listcell>
+                        <listcell>
+                            <label value="@bind(each.couchingStart)"/>
+                        </listcell>
+                        <listcell>
+                            <label value="@bind(each.team.name)"/>
+                        </listcell>
+                        <listcell>
+                            <button label="Edit" onClick="@command('edit', c=each)"/>
+                            <button label="Delete" onClick="@command('delete', c=each)"/>
+                        </listcell>
+                    </listitem>
+                </template>
+
+            </listbox>
+        </groupbox>
+    </window>
+</zk>

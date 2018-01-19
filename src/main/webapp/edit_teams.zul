@@ -1,0 +1,96 @@
+<zk>
+    <window title="Teams" border="normal"
+            apply="org.zkoss.bind.BindComposer"
+            viewModel="@id('vm') @init('epsilveira.league.webapp.TeamsVM')"
+    >
+
+        <window title="Team Editor" width="400px" mode="modal" action="show: slideDown;hide: slideUp" visible="@load(vm.currentTeam ne null)">
+            <vlayout>
+                <grid>
+                    <rows>
+                        <row>
+                            <label value="Name:" />
+                            <textbox width="100%" value="@load(vm.currentTeam.name) @save(vm.currentTeam.name, before='saveTeam')" constraint="no empty"/>
+                        </row>
+                        <row>
+                            <label value="Region:" />
+                            <combobox width="100%" model="@bind(vm.regions)" selectedItem="@load(vm.currentTeam.region) @save(vm.currentTeam.region, before='saveTeam')" constraint="no empty">
+                                <template name="model">
+                                    <comboitem label="@bind(each)"/>
+                                </template>
+                            </combobox>
+                        </row>
+                    </rows>
+                </grid>
+
+                <hbox>
+                    <button label="Accept" onClick="@command('saveTeam')"/>
+                    <button label="Cancel" onClick="@command('resetEditing')"/>
+                </hbox>
+            </vlayout>
+        </window>
+
+
+        <window title="View Players" width="400px" mode="modal" action="show: slideDown;hide: slideUp" visible="@load(vm.players ne null)">
+            <vlayout>
+                    <listbox model="@bind(vm.players)">
+                        <listhead>
+                            <listheader label="Name"/>
+                            <listheader label="Age"/>
+                            <listheader label="Position"/>
+                        </listhead>
+
+                        <template name="model">
+                            <listitem>
+                                <listcell>
+                                    <label value="@bind(each.name)"/>
+                                </listcell>
+                                <listcell>
+                                    <label value="@bind(each.age)"/>
+                                </listcell>
+                                <listcell>
+                                    <label value="@bind(each.position)"/>
+                                </listcell>
+                            </listitem>
+                        </template>
+
+                    </listbox>
+
+                <hbox>
+                    <button label="Exit" onClick="@command('cancelViewPlayers')"/>
+                </hbox>
+            </vlayout>
+        </window>
+
+        <groupbox mold="3d" closable="false">
+            <caption label="Team list">
+                <separator/>
+                <button label="New" onClick="@command('newTeam')"/>
+            </caption>
+            <listbox model="@bind(vm.teams)">
+                <listhead>
+                    <listheader label="Name"/>
+                    <listheader label="Region"/>
+                    <listheader label="Actions"/>
+                </listhead>
+
+                <template name="model">
+                    <listitem>
+                        <listcell>
+                            <label value="@bind(each.name)"/>
+                        </listcell>
+                        <listcell>
+                            <label value="@bind(each.region)"/>
+                        </listcell>
+                        <listcell>
+                            <button label="Edit" onClick="@command('edit', t=each)"/>
+                            <button label="Delete" onClick="@command('delete', t=each)"/>
+                            <button label="View Players" onClick="@command('viewPlayers', t=each)"/>
+                        </listcell>
+                    </listitem>
+                </template>
+
+            </listbox>
+        </groupbox>
+    </window>
+</zk>
